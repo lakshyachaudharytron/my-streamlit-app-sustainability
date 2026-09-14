@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------
-# GLOBAL STYLING — "Royal" emerald & gold identity
+# GLOBAL STYLING — Royal Blue & Gold identity
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -23,36 +23,51 @@ html, body, [class*="css"] {
 }
 
 :root {
-    --emerald-deep: #0B3D2E;
-    --emerald: #14532D;
-    --emerald-light: #2E7D5B;
+    --navy-deep: #081A3D;
+    --royal-blue: #16296B;
+    --royal-blue-light: #2A428C;
     --gold: #C9A24B;
-    --gold-light: #E4C77E;
-    --ivory: #FAF7F0;
-    --charcoal: #26302B;
-    --text-muted: #6B7268;
+    --gold-light: #E7CA82;
+    --ivory: #F7F8FB;
+    --text-dark: #14213D;
+    --text-muted: #5A6480;
 }
 
 .stApp {
-    background-color: var(--ivory);
+    background: linear-gradient(180deg, var(--navy-deep) 0%, var(--royal-blue) 100%);
 }
 
+/* Sidebar */
 section[data-testid="stSidebar"] {
-    background-color: var(--emerald-deep);
+    background-color: var(--navy-deep);
     border-right: 1px solid var(--gold);
 }
 section[data-testid="stSidebar"] * {
-    color: #F3EFE3 !important;
-}
-section[data-testid="stSidebar"] .stRadio label {
-    font-family: 'Lora', serif;
+    color: #EAF0FB !important;
 }
 
+/* Headings default to light/gold since page bg is dark blue */
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
-    color: var(--emerald-deep);
+    color: var(--gold-light);
     font-weight: 700;
     letter-spacing: 0.2px;
+}
+
+/* Inside white cards, headings need to be dark for contrast */
+div[data-testid="stVerticalBlockBorderWrapper"] h1,
+div[data-testid="stVerticalBlockBorderWrapper"] h2,
+div[data-testid="stVerticalBlockBorderWrapper"] h3 {
+    color: var(--navy-deep);
+}
+
+p, .stMarkdown, label, .stCaption {
+    color: #EAF0FB;
+}
+div[data-testid="stVerticalBlockBorderWrapper"] p,
+div[data-testid="stVerticalBlockBorderWrapper"] .stMarkdown,
+div[data-testid="stVerticalBlockBorderWrapper"] .stCaption {
+    color: var(--text-dark);
 }
 
 hr {
@@ -60,20 +75,20 @@ hr {
 }
 
 .stButton > button {
-    background-color: var(--emerald-deep);
-    color: var(--gold-light);
-    border: 1px solid var(--gold);
+    background-color: var(--gold);
+    color: var(--navy-deep);
+    border: 1px solid var(--gold-light);
     border-radius: 4px;
     padding: 0.55rem 1.4rem;
     font-family: 'Lora', serif;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.4px;
     transition: all 0.25s ease;
 }
 .stButton > button:hover {
-    background-color: var(--gold);
-    color: var(--emerald-deep);
-    border-color: var(--emerald-deep);
+    background-color: var(--gold-light);
+    color: var(--navy-deep);
+    border-color: var(--navy-deep);
 }
 
 .stTextInput > div > div > input,
@@ -81,16 +96,20 @@ hr {
 .stSelectbox > div > div {
     border-radius: 4px !important;
     border: 1px solid #D8CFB8 !important;
+    background-color: white !important;
+    color: var(--text-dark) !important;
 }
 
+/* Card containers */
 div[data-testid="stVerticalBlockBorderWrapper"] {
     border-radius: 6px !important;
-    border: 1px solid #E3DCC8 !important;
+    border: 1px solid var(--gold) !important;
+    background-color: var(--ivory) !important;
 }
 
 .badge {
     display: inline-block;
-    background-color: var(--emerald-deep);
+    background-color: var(--navy-deep);
     color: var(--gold-light);
     padding: 4px 14px;
     border-radius: 2px;
@@ -103,7 +122,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 .hero {
     padding: 3.5rem 3rem;
     border-radius: 6px;
-    background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald) 100%);
+    background: linear-gradient(135deg, var(--navy-deep) 0%, var(--royal-blue-light) 100%);
     border: 1px solid var(--gold);
     color: var(--ivory);
     margin-bottom: 2.2rem;
@@ -138,17 +157,17 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 }
 
 div[data-testid="stMetric"] {
-    background-color: white;
-    border: 1px solid #E3DCC8;
-    border-left: 3px solid var(--gold);
+    background-color: var(--ivory);
+    border: 1px solid var(--gold);
+    border-left: 4px solid var(--gold);
     border-radius: 4px;
     padding: 0.8rem 1rem;
 }
 div[data-testid="stMetricLabel"] {
-    color: var(--text-muted);
+    color: var(--text-muted) !important;
 }
 div[data-testid="stMetricValue"] {
-    color: var(--emerald-deep);
+    color: var(--navy-deep) !important;
     font-family: 'Playfair Display', serif;
 }
 
@@ -184,6 +203,9 @@ if "articles" not in st.session_state:
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
+if "selected_article" not in st.session_state:
+    st.session_state.selected_article = None
+
 CATEGORIES = [
     "ESG Investing",
     "Green Bonds",
@@ -207,9 +229,9 @@ with st.sidebar:
     st.caption(f"{len(st.session_state.articles)} article(s) published")
 
 # ---------------------------------------------------------
-# HELPER: ARTICLE CARD
+# HELPER: ARTICLE CARD (click -> opens dedicated article page)
 # ---------------------------------------------------------
-def render_article_card(article):
+def render_article_card(article, index):
     with st.container(border=True):
         if article.get("image") is not None:
             st.image(article["image"], use_container_width=True)
@@ -217,8 +239,33 @@ def render_article_card(article):
         st.markdown(f"### {article['title']}")
         st.caption(f"By {article['author']} · {article['date'].strftime('%B %d, %Y')}")
         st.write(article["excerpt"])
-        with st.expander("Read full article"):
-            st.write(article["content"])
+        if st.button("Read Full Article →", key=f"open_{index}"):
+            st.session_state.selected_article = index
+            st.rerun()
+
+# ---------------------------------------------------------
+# ARTICLE DETAIL PAGE
+# ---------------------------------------------------------
+def render_article_detail(index):
+    article = st.session_state.articles[index]
+
+    if st.button("← Back"):
+        st.session_state.selected_article = None
+        st.rerun()
+
+    st.markdown(f"""
+    <div class="hero">
+        <div class="subtitle">{article['category']}</div>
+        <h1>{article['title']}</h1>
+        <p>By {article['author']} · {article['date'].strftime('%B %d, %Y')}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if article.get("image") is not None:
+        st.image(article["image"], use_container_width=True)
+
+    with st.container(border=True):
+        st.write(article["content"])
 
 # ---------------------------------------------------------
 # HOME PAGE
@@ -244,14 +291,16 @@ def render_home():
     )
 
     st.markdown("### Featured Analysis")
-    latest = sorted(st.session_state.articles, key=lambda a: a["date"], reverse=True)[:3]
-    if not latest:
+    articles_sorted = sorted(
+        enumerate(st.session_state.articles), key=lambda pair: pair[1]["date"], reverse=True
+    )[:3]
+    if not articles_sorted:
         st.info("No articles published yet.")
     else:
-        cols = st.columns(len(latest))
-        for col, article in zip(cols, latest):
+        cols = st.columns(len(articles_sorted))
+        for col, (idx, article) in zip(cols, articles_sorted):
             with col:
-                render_article_card(article)
+                render_article_card(article, idx)
 
 # ---------------------------------------------------------
 # ARTICLES PAGE
@@ -264,25 +313,26 @@ def render_articles():
     with col2:
         filter_category = st.selectbox("Filter by category", ["All"] + CATEGORIES)
 
-    filtered = st.session_state.articles
+    indexed = list(enumerate(st.session_state.articles))
+
     if search:
-        filtered = [
-            a for a in filtered
+        indexed = [
+            (i, a) for i, a in indexed
             if search.lower() in a["title"].lower() or search.lower() in a["content"].lower()
         ]
     if filter_category != "All":
-        filtered = [a for a in filtered if a["category"] == filter_category]
+        indexed = [(i, a) for i, a in indexed if a["category"] == filter_category]
 
-    filtered = sorted(filtered, key=lambda a: a["date"], reverse=True)
+    indexed = sorted(indexed, key=lambda pair: pair[1]["date"], reverse=True)
 
-    if not filtered:
+    if not indexed:
         st.info("No articles match your search.")
         return
 
     cols = st.columns(3)
-    for i, article in enumerate(filtered):
-        with cols[i % 3]:
-            render_article_card(article)
+    for pos, (idx, article) in enumerate(indexed):
+        with cols[pos % 3]:
+            render_article_card(article, idx)
 
 # ---------------------------------------------------------
 # ADMIN PAGE
@@ -355,7 +405,9 @@ def render_admin():
 # ---------------------------------------------------------
 # ROUTER
 # ---------------------------------------------------------
-if page == "Home":
+if st.session_state.selected_article is not None:
+    render_article_detail(st.session_state.selected_article)
+elif page == "Home":
     render_home()
 elif page == "Articles":
     render_articles()
