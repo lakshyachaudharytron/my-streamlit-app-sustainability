@@ -5,7 +5,7 @@ from datetime import datetime
 # PAGE CONFIG
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Sustainability | Sustainable Finance Insights",
+    page_title="Sustainability | Duurzame Beleggingsinzichten",
     page_icon="🌿",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -37,7 +37,6 @@ html, body, [class*="css"] {
     background: linear-gradient(180deg, var(--navy-deep) 0%, var(--royal-blue) 100%);
 }
 
-/* Sidebar */
 section[data-testid="stSidebar"] {
     background-color: var(--navy-deep);
     border-right: 1px solid var(--gold);
@@ -46,7 +45,6 @@ section[data-testid="stSidebar"] * {
     color: #EAF0FB !important;
 }
 
-/* Headings default to light/gold since page bg is dark blue */
 h1, h2, h3 {
     font-family: 'Playfair Display', serif;
     color: var(--gold-light);
@@ -54,7 +52,6 @@ h1, h2, h3 {
     letter-spacing: 0.2px;
 }
 
-/* Inside white cards, headings need to be dark for contrast */
 div[data-testid="stVerticalBlockBorderWrapper"] h1,
 div[data-testid="stVerticalBlockBorderWrapper"] h2,
 div[data-testid="stVerticalBlockBorderWrapper"] h3 {
@@ -100,7 +97,6 @@ hr {
     color: var(--text-dark) !important;
 }
 
-/* Card containers */
 div[data-testid="stVerticalBlockBorderWrapper"] {
     border-radius: 6px !important;
     border: 1px solid var(--gold) !important;
@@ -181,22 +177,22 @@ footer {visibility: hidden;}
 if "articles" not in st.session_state:
     st.session_state.articles = [
         {
-            "title": "The Growth of Green Bonds in Institutional Portfolios",
-            "author": "Sustainability Desk",
-            "category": "Green Bonds",
+            "title": "De Opkomst van Groene Obligaties in Institutionele Portefeuilles",
+            "author": "Redactie Sustainability",
+            "category": "Groene Obligaties",
             "date": datetime(2026, 8, 12),
             "image": None,
-            "excerpt": "Green bond issuance continues to climb as institutional investors seek fixed-income exposure aligned with climate mandates.",
-            "content": "Green bonds have moved from a niche instrument to a core allocation within many institutional fixed-income portfolios. Issuers ranging from sovereigns to corporates are tapping this market to fund renewable energy, clean transport, and efficiency projects, while investors gain a way to align yield-seeking capital with measurable climate outcomes.",
+            "excerpt": "De uitgifte van groene obligaties blijft groeien nu institutionele beleggers vastrentende waarden zoeken die aansluiten bij klimaatdoelstellingen.",
+            "content": "Groene obligaties zijn uitgegroeid van een nichemarkt tot een kernonderdeel van veel institutionele vastrentende portefeuilles. Uitgevende instellingen, van overheden tot bedrijven, gebruiken deze markt om hernieuwbare energie, schoon vervoer en efficiëntieprojecten te financieren, terwijl beleggers rendement kunnen combineren met meetbare klimaatimpact.",
         },
         {
-            "title": "Pricing Climate Risk into Equity Valuations",
-            "author": "Sustainability Desk",
-            "category": "Climate Risk",
+            "title": "Klimaatrisico Verwerken in Aandelenwaarderingen",
+            "author": "Redactie Sustainability",
+            "category": "Klimaatrisico",
             "date": datetime(2026, 7, 3),
             "image": None,
-            "excerpt": "Analysts are increasingly incorporating physical and transition climate risk into discounted cash flow models.",
-            "content": "As physical climate events and regulatory transition pressures intensify, equity analysts are adjusting valuation models to reflect carbon exposure, stranded-asset risk, and long-term capital expenditure shifts required for decarbonization.",
+            "excerpt": "Analisten verwerken steeds vaker fysieke en transitierisico's in hun discounted cashflow-modellen.",
+            "content": "Nu fysieke klimaatgebeurtenissen en regelgevende transitiedruk toenemen, passen aandelenanalisten hun waarderingsmodellen aan om rekening te houden met CO2-blootstelling, het risico op gestrande activa en de langetermijninvesteringen die nodig zijn voor decarbonisatie.",
         },
     ]
 
@@ -207,14 +203,14 @@ if "selected_article" not in st.session_state:
     st.session_state.selected_article = None
 
 CATEGORIES = [
-    "ESG Investing",
-    "Green Bonds",
-    "Climate Risk",
-    "Impact Investing",
-    "Carbon Markets",
-    "Sustainable Banking",
-    "Renewable Energy Finance",
-    "Policy & Regulation",
+    "ESG-beleggen",
+    "Groene Obligaties",
+    "Klimaatrisico",
+    "Impactbeleggen",
+    "Koolstofmarkten",
+    "Duurzaam Bankieren",
+    "Hernieuwbare Energie",
+    "Beleid & Regelgeving",
 ]
 
 # ---------------------------------------------------------
@@ -222,14 +218,14 @@ CATEGORIES = [
 # ---------------------------------------------------------
 with st.sidebar:
     st.markdown("## 🌿 Sustainability")
-    st.caption("Sustainable Finance & Investment Intelligence")
+    st.caption("Inzichten in Duurzaam Beleggen")
     st.markdown("---")
-    page = st.radio("Navigate", ["Home", "Articles", "Admin"], label_visibility="collapsed")
+    page = st.radio("Navigatie", ["Home", "Artikelen", "Beheer"], label_visibility="collapsed")
     st.markdown("---")
-    st.caption(f"{len(st.session_state.articles)} article(s) published")
+    st.caption(f"{len(st.session_state.articles)} artikel(en) gepubliceerd")
 
 # ---------------------------------------------------------
-# HELPER: ARTICLE CARD (click -> opens dedicated article page)
+# HELPER: ARTIKELKAART (klik -> eigen artikelpagina)
 # ---------------------------------------------------------
 def render_article_card(article, index):
     with st.container(border=True):
@@ -237,19 +233,19 @@ def render_article_card(article, index):
             st.image(article["image"], use_container_width=True)
         st.markdown(f"<span class='badge'>{article['category']}</span>", unsafe_allow_html=True)
         st.markdown(f"### {article['title']}")
-        st.caption(f"By {article['author']} · {article['date'].strftime('%B %d, %Y')}")
+        st.caption(f"Door {article['author']} · {article['date'].strftime('%d %B %Y')}")
         st.write(article["excerpt"])
-        if st.button("Read Full Article →", key=f"open_{index}"):
+        if st.button("Lees volledig artikel →", key=f"open_{index}"):
             st.session_state.selected_article = index
             st.rerun()
 
 # ---------------------------------------------------------
-# ARTICLE DETAIL PAGE
+# ARTIKELPAGINA
 # ---------------------------------------------------------
 def render_article_detail(index):
     article = st.session_state.articles[index]
 
-    if st.button("← Back"):
+    if st.button("← Terug"):
         st.session_state.selected_article = None
         st.rerun()
 
@@ -257,7 +253,7 @@ def render_article_detail(index):
     <div class="hero">
         <div class="subtitle">{article['category']}</div>
         <h1>{article['title']}</h1>
-        <p>By {article['author']} · {article['date'].strftime('%B %d, %Y')}</p>
+        <p>Door {article['author']} · {article['date'].strftime('%d %B %Y')}</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -268,34 +264,34 @@ def render_article_detail(index):
         st.write(article["content"])
 
 # ---------------------------------------------------------
-# HOME PAGE
+# HOME
 # ---------------------------------------------------------
 def render_home():
     st.markdown("""
     <div class="hero">
-        <div class="subtitle">Sustainable Finance Intelligence</div>
+        <div class="subtitle">Duurzame Beleggingsinzichten</div>
         <h1>Sustainability</h1>
-        <p>Rigorous analysis on ESG investing, climate risk, and capital markets built for a low-carbon economy.</p>
+        <p>Gedegen analyses over ESG-beleggen, klimaatrisico en kapitaalmarkten voor een koolstofarme economie.</p>
     </div>
     """, unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("Articles Published", len(st.session_state.articles))
+    col1.metric("Gepubliceerde artikelen", len(st.session_state.articles))
     col2.metric(
-        "Categories Covered",
+        "Categorieën",
         len(set(a["category"] for a in st.session_state.articles)) if st.session_state.articles else 0,
     )
     col3.metric(
-        "Latest Update",
-        max((a["date"] for a in st.session_state.articles), default=datetime.now()).strftime("%b %d, %Y"),
+        "Laatste update",
+        max((a["date"] for a in st.session_state.articles), default=datetime.now()).strftime("%d %b %Y"),
     )
 
-    st.markdown("### Featured Analysis")
+    st.markdown("### Uitgelichte Analyses")
     articles_sorted = sorted(
         enumerate(st.session_state.articles), key=lambda pair: pair[1]["date"], reverse=True
     )[:3]
     if not articles_sorted:
-        st.info("No articles published yet.")
+        st.info("Er zijn nog geen artikelen gepubliceerd.")
     else:
         cols = st.columns(len(articles_sorted))
         for col, (idx, article) in zip(cols, articles_sorted):
@@ -303,15 +299,15 @@ def render_home():
                 render_article_card(article, idx)
 
 # ---------------------------------------------------------
-# ARTICLES PAGE
+# ARTIKELEN
 # ---------------------------------------------------------
 def render_articles():
-    st.markdown("## Research & Articles")
+    st.markdown("## Onderzoek & Artikelen")
     col1, col2 = st.columns([2, 1])
     with col1:
-        search = st.text_input("Search articles", placeholder="Search by title or keyword...")
+        search = st.text_input("Zoek artikelen", placeholder="Zoek op titel of trefwoord...")
     with col2:
-        filter_category = st.selectbox("Filter by category", ["All"] + CATEGORIES)
+        filter_category = st.selectbox("Filter op categorie", ["Alle"] + CATEGORIES)
 
     indexed = list(enumerate(st.session_state.articles))
 
@@ -320,13 +316,13 @@ def render_articles():
             (i, a) for i, a in indexed
             if search.lower() in a["title"].lower() or search.lower() in a["content"].lower()
         ]
-    if filter_category != "All":
+    if filter_category != "Alle":
         indexed = [(i, a) for i, a in indexed if a["category"] == filter_category]
 
     indexed = sorted(indexed, key=lambda pair: pair[1]["date"], reverse=True)
 
     if not indexed:
-        st.info("No articles match your search.")
+        st.info("Geen artikelen gevonden voor deze zoekopdracht.")
         return
 
     cols = st.columns(3)
@@ -335,58 +331,58 @@ def render_articles():
             render_article_card(article, idx)
 
 # ---------------------------------------------------------
-# ADMIN PAGE
+# BEHEER (ADMIN)
 # ---------------------------------------------------------
 def render_admin():
-    st.markdown("## Admin")
+    st.markdown("## Beheer")
 
     if not st.session_state.authenticated:
-        st.markdown("Enter the admin password to manage articles.")
+        st.markdown("Voer het beheerderswachtwoord in om artikelen te beheren.")
         with st.form("login_form"):
-            pwd = st.text_input("Password", type="password")
-            submitted = st.form_submit_button("Log in")
+            pwd = st.text_input("Wachtwoord", type="password")
+            submitted = st.form_submit_button("Inloggen")
         if submitted:
             correct_pwd = st.secrets.get("ADMIN_PASSWORD", "changeme")
             if pwd == correct_pwd:
                 st.session_state.authenticated = True
                 st.rerun()
             else:
-                st.error("Incorrect password.")
+                st.error("Onjuist wachtwoord.")
         return
 
-    if st.button("Log out"):
+    if st.button("Uitloggen"):
         st.session_state.authenticated = False
         st.rerun()
 
-    st.markdown("### Publish a New Article")
+    st.markdown("### Nieuw Artikel Publiceren")
     with st.form("upload_form", clear_on_submit=True):
-        title = st.text_input("Title")
-        author = st.text_input("Author", value="Sustainability Desk")
-        category = st.selectbox("Category", CATEGORIES)
-        image = st.file_uploader("Cover image", type=["png", "jpg", "jpeg"])
-        excerpt = st.text_area("Short excerpt (1-2 sentences)", height=80)
-        content = st.text_area("Full article content", height=250)
-        submitted = st.form_submit_button("Publish Article")
+        title = st.text_input("Titel")
+        author = st.text_input("Auteur", value="Redactie Sustainability")
+        category = st.selectbox("Categorie", CATEGORIES)
+        image = st.file_uploader("Coverafbeelding", type=["png", "jpg", "jpeg"])
+        excerpt = st.text_area("Korte samenvatting (1-2 zinnen)", height=80)
+        content = st.text_area("Volledige inhoud van het artikel", height=250)
+        submitted = st.form_submit_button("Publiceer Artikel")
 
     if submitted:
         if not title or not content:
-            st.error("Title and content are required.")
+            st.error("Titel en inhoud zijn verplicht.")
         else:
             st.session_state.articles.append({
                 "title": title,
-                "author": author or "Sustainability Desk",
+                "author": author or "Redactie Sustainability",
                 "category": category,
                 "date": datetime.now(),
                 "image": image,
                 "excerpt": excerpt or content[:150] + "...",
                 "content": content,
             })
-            st.success(f"'{title}' published.")
+            st.success(f"'{title}' is gepubliceerd.")
 
     st.markdown("---")
-    st.markdown("### Manage Existing Articles")
+    st.markdown("### Bestaande Artikelen Beheren")
     if not st.session_state.articles:
-        st.info("No articles yet.")
+        st.info("Er zijn nog geen artikelen.")
     else:
         for i, article in enumerate(st.session_state.articles):
             with st.container(border=True):
@@ -394,11 +390,11 @@ def render_admin():
                 with c1:
                     st.markdown(
                         f"**{article['title']}**  \n<span class='badge'>{article['category']}</span> · "
-                        f"{article['date'].strftime('%b %d, %Y')}",
+                        f"{article['date'].strftime('%d %b %Y')}",
                         unsafe_allow_html=True,
                     )
                 with c2:
-                    if st.button("Delete", key=f"delete_{i}"):
+                    if st.button("Verwijderen", key=f"delete_{i}"):
                         st.session_state.articles.pop(i)
                         st.rerun()
 
@@ -409,10 +405,10 @@ if st.session_state.selected_article is not None:
     render_article_detail(st.session_state.selected_article)
 elif page == "Home":
     render_home()
-elif page == "Articles":
+elif page == "Artikelen":
     render_articles()
-elif page == "Admin":
+elif page == "Beheer":
     render_admin()
 
 st.markdown("---")
-st.caption("© 2026 Sustainability · Sustainable Finance Intelligence")
+st.caption("© 2026 Sustainability · Inzichten in Duurzaam Beleggen")
