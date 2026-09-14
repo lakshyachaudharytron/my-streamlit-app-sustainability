@@ -228,7 +228,11 @@ DESCRIPTIONS = {
 # ---------------------------------------------------------
 # SESSION STATE
 # ---------------------------------------------------------
-if "articles" not in st.session_state:
+_needs_reset = (
+    "articles" not in st.session_state
+    or (st.session_state.articles and "section" not in st.session_state.articles[0])
+)
+if _needs_reset:
     st.session_state.articles = [
         {
             "title": "The Rise of Green Bonds in Institutional Portfolios",
