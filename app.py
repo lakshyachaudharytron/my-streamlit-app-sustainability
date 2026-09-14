@@ -17,21 +17,22 @@ st.set_page_config(
 # ---------------------------------------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'Lora', serif;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
 }
 
 :root {
-    --navy-deep: #081A3D;
-    --royal-blue: #16296B;
-    --royal-blue-light: #2A428C;
-    --gold: #C9A24B;
-    --gold-light: #E7CA82;
-    --ivory: #F7F8FB;
-    --text-dark: #14213D;
-    --text-muted: #5A6480;
+    --navy-deep: #12211C;
+    --royal-blue: #1F4B3F;
+    --royal-blue-light: #2F6A57;
+    --gold: #AD8A55;
+    --gold-light: #D9BE8F;
+    --ivory: #F6F3EA;
+    --text-dark: #201C14;
+    --text-muted: #6B665A;
 }
 
 .stApp {
@@ -65,10 +66,10 @@ section[data-testid="stSidebar"] div[data-testid="stExpander"] {
 }
 
 h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', serif;
     color: var(--gold-light);
     font-weight: 700;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.4px;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] h1,
@@ -154,22 +155,24 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 }
 .hero h1 {
     color: var(--gold-light);
-    font-size: 2.8rem;
+    font-size: 3.2rem;
+    font-weight: 600;
     margin-bottom: 0.6rem;
 }
 .hero .subtitle {
     color: var(--gold);
     text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 0.8rem;
+    letter-spacing: 4px;
+    font-size: 0.78rem;
     font-weight: 600;
     margin-bottom: 0.8rem;
 }
 .hero p {
-    color: #E9E4D4;
-    font-size: 1.1rem;
+    color: #E7E1D2;
+    font-size: 1.2rem;
     max-width: 680px;
     font-style: italic;
+    line-height: 1.6;
 }
 
 div[data-testid="stMetric"] {
@@ -184,7 +187,7 @@ div[data-testid="stMetricLabel"] {
 }
 div[data-testid="stMetricValue"] {
     color: var(--navy-deep) !important;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Cormorant Garamond', serif;
 }
 
 footer {visibility: hidden;}
@@ -379,17 +382,6 @@ def render_home():
     </div>
     """, unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Published articles", len(st.session_state.articles))
-    col2.metric(
-        "Categories covered",
-        len(set((a["section"], a["sub"]) for a in st.session_state.articles)) if st.session_state.articles else 0,
-    )
-    col3.metric(
-        "Last update",
-        max((a["date"] for a in st.session_state.articles), default=datetime.now()).strftime("%d %b %Y"),
-    )
-
     st.markdown("### Featured Analyses")
     articles_sorted = sorted(
         enumerate(st.session_state.articles), key=lambda pair: pair[1]["date"], reverse=True
@@ -401,17 +393,6 @@ def render_home():
         for col, (idx, article) in zip(cols, articles_sorted):
             with col:
                 render_article_card(article, idx)
-
-    st.markdown("---")
-    st.markdown("### Explore")
-    nav_cols = st.columns(4)
-    top_sections = list(CONTENT_NAV.keys())
-    for col, section in zip(nav_cols, top_sections):
-        with col:
-            st.markdown(f"**{section}**")
-            for sub in CONTENT_NAV[section]:
-                if st.button(sub, key=f"home_{section}_{sub}", use_container_width=True):
-                    go_to(section, sub)
 
 # ---------------------------------------------------------
 # GENERIC CATEGORY PAGE (article-driven sections)
