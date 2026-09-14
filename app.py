@@ -5,99 +5,151 @@ from datetime import datetime
 # PAGE CONFIG
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Sustainability",
-    page_icon="🌱",
+    page_title="Sustainability | Sustainable Finance Insights",
+    page_icon="🌿",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
 # ---------------------------------------------------------
-# GLOBAL STYLING
+# GLOBAL STYLING — "Royal" emerald & gold identity
 # ---------------------------------------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lora', serif;
 }
 
 :root {
-    --forest-dark: #1B4332;
-    --forest: #2D6A4F;
-    --forest-light: #40916C;
-    --mint: #95D5B2;
-    --bg: #F7F9F7;
-    --text-muted: #5C6B66;
+    --emerald-deep: #0B3D2E;
+    --emerald: #14532D;
+    --emerald-light: #2E7D5B;
+    --gold: #C9A24B;
+    --gold-light: #E4C77E;
+    --ivory: #FAF7F0;
+    --charcoal: #26302B;
+    --text-muted: #6B7268;
 }
 
 .stApp {
-    background-color: var(--bg);
+    background-color: var(--ivory);
 }
 
 section[data-testid="stSidebar"] {
-    background-color: var(--forest-dark);
+    background-color: var(--emerald-deep);
+    border-right: 1px solid var(--gold);
 }
 section[data-testid="stSidebar"] * {
-    color: #F0F5F2 !important;
+    color: #F3EFE3 !important;
+}
+section[data-testid="stSidebar"] .stRadio label {
+    font-family: 'Lora', serif;
 }
 
 h1, h2, h3 {
-    color: var(--forest-dark);
+    font-family: 'Playfair Display', serif;
+    color: var(--emerald-deep);
     font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+hr {
+    border-top: 1px solid var(--gold-light) !important;
 }
 
 .stButton > button {
-    background-color: var(--forest);
-    color: white;
-    border-radius: 8px;
-    border: none;
-    padding: 0.5rem 1.3rem;
+    background-color: var(--emerald-deep);
+    color: var(--gold-light);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    padding: 0.55rem 1.4rem;
+    font-family: 'Lora', serif;
     font-weight: 600;
-    transition: background-color 0.2s ease;
+    letter-spacing: 0.4px;
+    transition: all 0.25s ease;
 }
 .stButton > button:hover {
-    background-color: var(--forest-dark);
-    color: white;
+    background-color: var(--gold);
+    color: var(--emerald-deep);
+    border-color: var(--emerald-deep);
 }
 
 .stTextInput > div > div > input,
 .stTextArea textarea,
 .stSelectbox > div > div {
-    border-radius: 8px !important;
+    border-radius: 4px !important;
+    border: 1px solid #D8CFB8 !important;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"] {
-    border-radius: 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid #E3DCC8 !important;
 }
 
 .badge {
     display: inline-block;
-    background-color: var(--mint);
-    color: var(--forest-dark);
-    padding: 3px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+    background-color: var(--emerald-deep);
+    color: var(--gold-light);
+    padding: 4px 14px;
+    border-radius: 2px;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.3px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
 }
 
 .hero {
-    padding: 3rem 2rem;
-    border-radius: 16px;
-    background: linear-gradient(135deg, var(--forest-dark), var(--forest));
-    color: white;
-    margin-bottom: 2rem;
+    padding: 3.5rem 3rem;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald) 100%);
+    border: 1px solid var(--gold);
+    color: var(--ivory);
+    margin-bottom: 2.2rem;
+    position: relative;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 12px; left: 12px; right: 12px; bottom: 12px;
+    border: 1px solid rgba(201, 162, 75, 0.4);
+    border-radius: 4px;
+    pointer-events: none;
 }
 .hero h1 {
-    color: white;
-    font-size: 2.6rem;
-    margin-bottom: 0.5rem;
+    color: var(--gold-light);
+    font-size: 2.8rem;
+    margin-bottom: 0.6rem;
+}
+.hero .subtitle {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
 }
 .hero p {
-    color: #E4F0EA;
+    color: #E9E4D4;
     font-size: 1.1rem;
-    max-width: 650px;
+    max-width: 680px;
+    font-style: italic;
+}
+
+div[data-testid="stMetric"] {
+    background-color: white;
+    border: 1px solid #E3DCC8;
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 0.8rem 1rem;
+}
+div[data-testid="stMetricLabel"] {
+    color: var(--text-muted);
+}
+div[data-testid="stMetricValue"] {
+    color: var(--emerald-deep);
+    font-family: 'Playfair Display', serif;
 }
 
 footer {visibility: hidden;}
@@ -110,36 +162,45 @@ footer {visibility: hidden;}
 if "articles" not in st.session_state:
     st.session_state.articles = [
         {
-            "title": "The Rise of Circular Economies",
-            "author": "Sustainability Team",
-            "category": "Circular Economy",
+            "title": "The Growth of Green Bonds in Institutional Portfolios",
+            "author": "Sustainability Desk",
+            "category": "Green Bonds",
             "date": datetime(2026, 8, 12),
             "image": None,
-            "excerpt": "How businesses are redesigning supply chains to eliminate waste and keep resources in use for longer.",
-            "content": "Circular economy models are reshaping how companies think about product lifecycles. Instead of the traditional take-make-dispose approach, organizations are now designing for reuse, repair, and recycling from the outset.",
+            "excerpt": "Green bond issuance continues to climb as institutional investors seek fixed-income exposure aligned with climate mandates.",
+            "content": "Green bonds have moved from a niche instrument to a core allocation within many institutional fixed-income portfolios. Issuers ranging from sovereigns to corporates are tapping this market to fund renewable energy, clean transport, and efficiency projects, while investors gain a way to align yield-seeking capital with measurable climate outcomes.",
         },
         {
-            "title": "Renewable Energy Adoption in 2026",
-            "author": "Sustainability Team",
-            "category": "Energy",
+            "title": "Pricing Climate Risk into Equity Valuations",
+            "author": "Sustainability Desk",
+            "category": "Climate Risk",
             "date": datetime(2026, 7, 3),
             "image": None,
-            "excerpt": "A look at how solar and wind capacity additions are accelerating the global energy transition.",
-            "content": "Global renewable capacity has continued its rapid expansion, driven by falling technology costs and supportive policy frameworks.",
+            "excerpt": "Analysts are increasingly incorporating physical and transition climate risk into discounted cash flow models.",
+            "content": "As physical climate events and regulatory transition pressures intensify, equity analysts are adjusting valuation models to reflect carbon exposure, stranded-asset risk, and long-term capital expenditure shifts required for decarbonization.",
         },
     ]
 
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
-CATEGORIES = ["Climate", "Energy", "Circular Economy", "Biodiversity", "Sustainable Living", "Policy", "Corporate ESG"]
+CATEGORIES = [
+    "ESG Investing",
+    "Green Bonds",
+    "Climate Risk",
+    "Impact Investing",
+    "Carbon Markets",
+    "Sustainable Banking",
+    "Renewable Energy Finance",
+    "Policy & Regulation",
+]
 
 # ---------------------------------------------------------
 # SIDEBAR NAVIGATION
 # ---------------------------------------------------------
 with st.sidebar:
-    st.markdown("## 🌱 Sustainability")
-    st.caption("Insights for a greener future")
+    st.markdown("## 🌿 Sustainability")
+    st.caption("Sustainable Finance & Investment Intelligence")
     st.markdown("---")
     page = st.radio("Navigate", ["Home", "Articles", "Admin"], label_visibility="collapsed")
     st.markdown("---")
@@ -165,8 +226,9 @@ def render_article_card(article):
 def render_home():
     st.markdown("""
     <div class="hero">
+        <div class="subtitle">Sustainable Finance Intelligence</div>
         <h1>Sustainability</h1>
-        <p>Stories, research, and insights on climate, energy, and building a more sustainable future.</p>
+        <p>Rigorous analysis on ESG investing, climate risk, and capital markets built for a low-carbon economy.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -181,7 +243,7 @@ def render_home():
         max((a["date"] for a in st.session_state.articles), default=datetime.now()).strftime("%b %d, %Y"),
     )
 
-    st.markdown("### Latest Articles")
+    st.markdown("### Featured Analysis")
     latest = sorted(st.session_state.articles, key=lambda a: a["date"], reverse=True)[:3]
     if not latest:
         st.info("No articles published yet.")
@@ -195,7 +257,7 @@ def render_home():
 # ARTICLES PAGE
 # ---------------------------------------------------------
 def render_articles():
-    st.markdown("## Articles")
+    st.markdown("## Research & Articles")
     col1, col2 = st.columns([2, 1])
     with col1:
         search = st.text_input("Search articles", placeholder="Search by title or keyword...")
@@ -246,10 +308,10 @@ def render_admin():
         st.session_state.authenticated = False
         st.rerun()
 
-    st.markdown("### Upload a New Article")
+    st.markdown("### Publish a New Article")
     with st.form("upload_form", clear_on_submit=True):
         title = st.text_input("Title")
-        author = st.text_input("Author", value="Sustainability Team")
+        author = st.text_input("Author", value="Sustainability Desk")
         category = st.selectbox("Category", CATEGORIES)
         image = st.file_uploader("Cover image", type=["png", "jpg", "jpeg"])
         excerpt = st.text_area("Short excerpt (1-2 sentences)", height=80)
@@ -262,7 +324,7 @@ def render_admin():
         else:
             st.session_state.articles.append({
                 "title": title,
-                "author": author or "Sustainability Team",
+                "author": author or "Sustainability Desk",
                 "category": category,
                 "date": datetime.now(),
                 "image": image,
@@ -301,4 +363,4 @@ elif page == "Admin":
     render_admin()
 
 st.markdown("---")
-st.caption("© 2026 Sustainability · Built with Streamlit")
+st.caption("© 2026 Sustainability · Sustainable Finance Intelligence")
